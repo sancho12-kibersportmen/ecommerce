@@ -1,18 +1,23 @@
-import { Button } from "@/components/ui/button"
-import { auth } from "@clerk/nextjs/server"
-import { redirect } from "next/navigation"
+"use client";
 
-export default async function Home() {
-    const { userId } = await auth()
-    
-    if (!userId) {
-        redirect("/sign-in")
-    }
+import { useEffect } from "react";
+
+import { useStoreModal } from "@/hooks/use-store-modal";
+
+const SetUpPage = () => {
+    const onOpen = useStoreModal((state) => state.onOpen);
+    const isOpen = useStoreModal((state) => state.isOpen);
+
+    useEffect(() => {
+        if (!isOpen) {
+            onOpen();
+        }
+    }, [isOpen, onOpen]);
 
     return (
-        <div className="p-4">
-            <h1 className="text-2xl font-bold mb-4">Admin Dashboard</h1>
-            <Button>Click me</Button>
+        <div className="p-4 min-h-screen bg-gray-100">
+            Root Page
         </div>
     )
 }
+export default SetUpPage;
